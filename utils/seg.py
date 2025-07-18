@@ -18,10 +18,13 @@ transform = transforms.Compose([
     transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])])
 
 
-def init():
+def init(checkpoint_path=None):
     global model
     model = U2NETP(mode='eval').to(device)
-    checkpoint = torch.load('./results/seg_checkpoint/seg.pth')
+    if checkpoint_path is None:
+        checkpoint = torch.load('./results/seg_checkpoint/seg.pth')
+    else:
+        checkpoint = torch.load(checkpoint_path)
     model.load_state_dict(checkpoint['state_dict'])
     model.eval()
 
